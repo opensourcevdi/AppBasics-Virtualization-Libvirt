@@ -330,7 +330,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         public static int ListVolumes(IntPtr pool, ref string[] names, int maxnames)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListVolumes(pool, namesPtr, maxnames);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);

@@ -29,6 +29,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
             {
                 IntPtr s = Marshal.ReadIntPtr(stringPtr, i * IntPtr.Size);
                 members[i] = Marshal.PtrToStringAnsi(s);
+                NativeFunctions.Free(s);
             }
             return members;
         }

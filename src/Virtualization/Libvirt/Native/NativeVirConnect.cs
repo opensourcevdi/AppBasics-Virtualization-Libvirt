@@ -136,7 +136,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>the number of names provided in the array or -1 in case of error</returns>
         public static int ListDefinedDomains(IntPtr conn, ref string[] names, int maxnames)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListDefinedDomains(conn, namesPtr, maxnames);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);
@@ -162,7 +162,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         ///<returns>the number of interfaces found or -1 in case of error </returns>
         public static int ListDefinedInterfaces(IntPtr conn, ref string[] names, int maxnames)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListDefinedInterfaces(conn, namesPtr, maxnames);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);
@@ -187,7 +187,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>the number of names provided in the array or -1 in case of error</returns>
         public static int ListDefinedNetworks(IntPtr conn, ref string[] names, int maxnames)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListDefinedNetworks(conn, namesPtr, maxnames);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);
@@ -212,7 +212,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>0 on success, -1 on error</returns>
         public static int ListDefinedStoragePools(IntPtr conn, ref string[] names, int maxnames)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListDefinedStoragePools(conn, namesPtr, maxnames);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);
@@ -246,7 +246,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>the number of interfaces found or -1 in case of error</returns>
         public static int ListInterfaces(IntPtr conn, ref string[] names, int maxnames)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListInterfaces(conn, namesPtr, maxnames);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);
@@ -271,7 +271,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>the number of networks found or -1 in case of error</returns>
         public static int ListNetworks(IntPtr conn, ref string[] names, int maxnames)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListNetworks(conn, namesPtr, maxnames);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);
@@ -296,7 +296,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>the number of UUIDs provided in the array, or -1 on failure.</returns>
         public static int ListSecrets(IntPtr conn, ref string[] uuids, int maxuuids)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxuuids * IntPtr.Size);
             int count = ListSecrets(conn, namesPtr, maxuuids);
             if (count > 0)
                 uuids = MarshalHelper.ptrToStringArray(namesPtr, count);
@@ -321,7 +321,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>0 on success, -1 on error</returns>
         public static int ListStoragePools(IntPtr conn, ref string[] names, int maxnames)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListStoragePools(conn, namesPtr, maxnames);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);

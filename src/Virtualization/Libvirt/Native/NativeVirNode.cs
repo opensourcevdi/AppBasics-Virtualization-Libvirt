@@ -155,7 +155,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         public static int ListDevices(IntPtr conn, string cap, ref string[] names, int maxnames, uint flags)
         {
-            IntPtr namesPtr = Marshal.AllocHGlobal(MaxStringLength);
+            IntPtr namesPtr = Marshal.AllocHGlobal(maxnames * IntPtr.Size);
             int count = ListDevices(conn, cap, namesPtr, maxnames, 0);
             if (count > 0)
                 names = MarshalHelper.ptrToStringArray(namesPtr, count);
