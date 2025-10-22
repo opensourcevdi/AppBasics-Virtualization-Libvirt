@@ -506,6 +506,19 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virConnectSetKeepAlive")]
         public static extern int SetKeepAlive(IntPtr conn, int interval, uint count);
 
+
+        /// <summary>
+        /// Adds a callback to be invoked when the connection is closed
+        /// </summary>
+        /// <param name="conn">pointer to the connection</param>
+        /// <param name="cb">callback to the function handling connection close</param>
+        /// <param name="opaque">opaque data to pass on to the callback</param>
+        /// <param name="ff">optional function to deallocate opaque when not used anymore</param>
+        /// <returns>Returns 0 on success, -1 on failure</returns>
+        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virConnectRegisterCloseCallback")]
+        public static extern int RegisterCloseCallback(IntPtr conn, [MarshalAs(UnmanagedType.FunctionPtr)] VirConnectCloseFunc cb,
+                                                            IntPtr opaque, [MarshalAs(UnmanagedType.FunctionPtr)] VirFreeCallback ff);
+
         /// <summary>
         /// Adds a callback to receive notifications of domain lifecycle events occurring on a connection Use of this method is no longer recommended. Instead applications should try virConnectDomainEventRegisterAny which has a more flexible API contract The virDomainPtr object handle passed into the callback upon delivery of an event is only valid for the duration of execution of the callback. If the callback wishes to keep the domain object after the callback
         /// </summary>
