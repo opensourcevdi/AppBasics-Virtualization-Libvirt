@@ -42,6 +42,14 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <summary>
         /// Extend existing pool.
         /// </summary>
-        VIR_STORAGE_POOL_BUILD_RESIZE = 2
+        VIR_STORAGE_POOL_BUILD_RESIZE = 2,
+        /// <summary>
+        /// Do not overwrite existing pool.
+        /// </summary>
+        VIR_STORAGE_POOL_BUILD_NO_OVERWRITE = 4,
+        /// <summary>
+        /// Overwrite data.
+        /// </summary>
+        VIR_STORAGE_POOL_BUILD_OVERWRITE = 8
     }
 }
