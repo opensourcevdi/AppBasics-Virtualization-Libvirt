@@ -31,24 +31,34 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
     ///<summary>
     /// class for libvirt qemu specific methods
     ///</summary>
-    public class NativeVirQemu
+    public static class NativeVirQemu
     {
-        private const int MaxStringLength = 1024;
+        [DllImport("libvirt-qemu.so.0", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainQemuMonitorCommand")]
+        private static extern int virDomainQemuMonitorCommand(
+            IntPtr domain,
+            [MarshalAs(UnmanagedType.LPUTF8Str)] string cmd,
+            out IntPtr result,
+            VirDomainQemuMonitorCommandFlags flags);
 
-        [DllImport("libvirt-qemu-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainQemuMonitorCommand")]
-        private static extern int MonitorCommandImpl(IntPtr domain, string cmd, [Out] StringBuilder result, uint flags);
+        [DllImport("libvirt.so.0", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virFree")]
+        private static extern int virFree(IntPtr ptr);
 
-        public static int MonitorCommand(IntPtr domain, [MarshalAs(UnmanagedType.LPStr)]string cmd, ref string result, VirDomainQemuMonitorCommandFlags flags)
+        public static int MonitorCommand(IntPtr domain, string cmd, out string result, VirDomainQemuMonitorCommandFlags flags)
         {
-            var sb = new StringBuilder();
-            //IntPtr buf = Marshal.AllocCoTaskMem(MaxStringLength + 1);
-            //Marshal.WriteByte(buf, MaxStringLength, 0);
-            //IntPtr buf2 = buf;
-            int ret = MonitorCommandImpl(domain, cmd, sb, (uint)flags);
-            if (ret == 0)
-                result = sb.ToString();
-                //result = MarshalHelper.ptrToString(buf);
-                //Marshal.FreeCoTaskMem(buf);
+            IntPtr resultPtr;
+            int ret = virDomainQemuMonitorCommand(domain, cmd, out resultPtr, flags);
+
+            if (ret < 0 || resultPtr == IntPtr.Zero)
+            {
+                result = null;
+                return ret;
+            }
+
+            result = Marshal.PtrToStringUTF8(resultPtr);
+
+            // Free memory allocated by libvirt
+            NativeFunctions.Free(resultPtr);
+
             return ret;
         }
     }

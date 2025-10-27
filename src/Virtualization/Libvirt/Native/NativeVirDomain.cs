@@ -745,6 +745,16 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         public static extern int Undefine(IntPtr domain);
 
         /// <summary>
+        /// Undefine a domain. If the domain is running, it's converted to transient domain, without stopping it. If the domain is inactive, the domain configuration is removed.
+        /// </summary>
+        /// <param name="domain">pointer to a defined domain</param>
+        /// <param name="flags">an OR'ed set of virDomainUndefineFlags</param>
+        /// <returns>0 in case of success, -1 in case of error
+
+        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainUndefineFlags")]
+        public static extern int UndefineFlags(IntPtr domain, VirDomainUndefineFlagsValues flags);
+
+        /// <summary>
         /// This function returns block device (disk) stats for block devices attached to the domain. The path parameter is the name of the block device. Get this by calling virDomainGetXMLDesc and finding the target dev='...' attribute within //domain/devices/disk. (For example, "xvda"). Domains may have more than one block device. To get stats for each you should make multiple calls to this function. Individual fields within the stats structure may be returned as -1, which indicates that the hypervisor does not support that particular statistic.
         /// </summary>
         /// <param name="dom">pointer to the domain object</param>

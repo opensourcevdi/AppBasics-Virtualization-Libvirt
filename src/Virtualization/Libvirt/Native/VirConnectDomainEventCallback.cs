@@ -39,4 +39,23 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void VirConnectDomainEventCallback(IntPtr conn, IntPtr dom, [MarshalAs(UnmanagedType.I4)] VirDomainEventType evt, int detail, IntPtr opaque);
 
+
+    /// <summary>
+    /// The callback signature to use when registering for an event of type VIR_DOMAIN_EVENT_ID_GRAPHICS with virConnectDomainEventRegisterAny()
+    /// </summary>
+    /// <param name="conn">virConnect connection </param>
+    /// <param name="dom">The domain on which the event occured</param>
+    /// <param name="phase">The specific phase of the graphics event</param>
+    /// <param name="local">Local address information</param>
+    /// <param name="remote">Remote address information</param>
+    /// <param name="authScheme">Authentication scheme used</param>
+    /// <param name="subject">Subject of the event</param>
+    /// <param name="opaque">Opaque user data</param>
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void VirConnectDomainEventGraphicsCallback(IntPtr conn, IntPtr dom, VirDomainEventGraphicsPhase phase,
+                         ref VirDomainEventGraphicsAddress local,
+                         ref VirDomainEventGraphicsAddress remote,
+                         [MarshalAs(UnmanagedType.LPStr)] string authScheme,
+                         ref VirDomainEventGraphicsSubject subject,
+                         IntPtr opaque);
 }

@@ -162,7 +162,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt
                 case "qemu":
                 case "kvm":
                     string result = null;
-                    if (NativeVirQemu.MonitorCommand(_domainPtr, $"change vnc password \"{password}\"", ref result,
+                    if (NativeVirQemu.MonitorCommand(_domainPtr, $"change vnc password \"{password}\"", out result,
                         VirDomainQemuMonitorCommandFlags.VIR_DOMAIN_QEMU_MONITOR_COMMAND_HMP) < 0)
                         throw new LibvirtException($"SetConsolePassword failed: {result}");
                     Trace.WriteLine($"set console output: '{result}'");
