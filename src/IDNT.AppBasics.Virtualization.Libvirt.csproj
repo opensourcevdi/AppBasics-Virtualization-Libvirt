@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2;net47;net461;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2;net47;net461;netcoreapp3.1;net9.0</TargetFrameworks>
     <PackageId>IDNT.AppBasics.Virtualization.Libvirt</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>IDNT and the Livirt-dotnet contributors.</Authors>
@@ -73,7 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="IDNT.AppBasics.Virtualization.Libvirt.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
 </Project>
