@@ -32,7 +32,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
     /// </summary>
     public class NativeVirStoragePool
     {
-		private const int MaxStringLength = 1024;
+        private const int MaxStringLength = 1024;
 
         /// <summary>
         /// Build the underlying storage pool.
@@ -46,7 +46,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, or -1 upon failure
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolBuild")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolBuild")]
         public static extern int Build(IntPtr pool, VirStoragePoolBuildFlags flags);
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, or -1 if it could not be started.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolCreate")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolCreate")]
         public static extern int Create(IntPtr pool, uint flags);
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A virStoragePoolPtr object, or NULL if creation failed.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolCreateXML")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolCreateXML")]
         public static extern IntPtr CreateXML(IntPtr conn, string xmlDesc, uint flags);
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A virStoragePoolPtr object, or NULL if creation failed.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolDefineXML")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolDefineXML")]
         public static extern IntPtr DefineXML(IntPtr conn, string xml, uint flags);
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, or -1 if it could not be obliterate.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolDelete")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolDelete")]
         public static extern int Delete(IntPtr pool, VirStoragePoolDeleteFlags flags);
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, or -1 if it could not be destroyed.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolDestroy")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolDestroy")]
         public static extern int Destroy(IntPtr pool);
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, or -1 if it could not be free'd.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolFree")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolFree")]
         public static extern int Free(IntPtr pool);
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, -1 on failure
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetAutostart")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetAutostart")]
         public static extern int GetAutostart(IntPtr pool, out int autotart);
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>the virConnectPtr or NULL in case of failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetConnect")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetConnect")]
         public static extern IntPtr GetConnect(IntPtr pool);
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, or -1 on failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetInfo")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetInfo")]
         public static extern int GetInfo(IntPtr pool, ref VirStoragePoolInfo info);
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// The name of the pool, or NULL on error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetName")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetName")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetName(IntPtr pool);
 
@@ -210,7 +210,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, or -1 on error
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetUUID", CharSet = CharSet.Ansi)]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetUUID", CharSet = CharSet.Ansi)]
         public static extern int GetUUID(IntPtr pool, [Out] byte[] uuid);
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, or -1 on error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetUUIDString")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetUUIDString")]
         private static extern int GetUUIDString(IntPtr pool, [Out] char[] uuid);
 
         ///<summary>
@@ -251,7 +251,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// key or null if not found
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetKey")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetKey")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetVolKey(IntPtr volume);
 
@@ -268,7 +268,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A XML document, or NULL on error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetXMLDesc")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolGetXMLDesc")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetXMLDesc(IntPtr pool, VirDomainXMLFlags flags);
 
@@ -281,7 +281,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 1 if running, 0 if inactive, -1 on error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolIsActive")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolIsActive")]
         public static extern int IsActive(IntPtr pool);
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 1 if persistent, 0 if transient, -1 on error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolIsPersistent")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolIsPersistent")]
         public static extern int IsPersistent(IntPtr pool);
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// The number of names fetched, or -1 on error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolListVolumes")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolListVolumes")]
         private static extern int ListVolumes(IntPtr pool, IntPtr names, int maxnames);
         /// <summary>
         /// Fetch list of storage volume names, limiting to at most maxnames.
@@ -349,7 +349,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>virStoragePoolPtr object, or NULL if no matching pool is found.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolLookupByName")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolLookupByName")]
         public static extern IntPtr LookupByName(IntPtr conn, string name);
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>virStorageVolPtr object, or NULL if no matching volume was found.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolLookupByName")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolLookupByName")]
         public static extern IntPtr LookupVolByName(IntPtr pool, string name);
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A virStoragePoolPtr object, or NULL if no matching pool is found
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolLookupByUUID", CharSet = CharSet.Ansi)]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolLookupByUUID", CharSet = CharSet.Ansi)]
         public static extern IntPtr LookupByUUID(IntPtr conn, byte[] uuid);
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>object, or NULL if no matching pool is found.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolLookupByUUIDString")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolLookupByUUIDString")]
         public static extern IntPtr LookupByUUIDString(IntPtr conn, string uuidstr);
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>object, or NULL if no matching pool is found.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolLookupByVolume")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolLookupByVolume")]
         public static extern IntPtr LookupByVolume(IntPtr vol);
 
         /// <summary>
@@ -418,7 +418,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="System.Int32"/>the number of storage pools, or -1 on failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolNumOfVolumes")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolNumOfVolumes")]
         public static extern int NumOfVolumes(IntPtr pool);
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 in case of success, -1 in case of failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolRef")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolRef")]
         public static extern int Ref(IntPtr pool);
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 if the volume list was refreshed, -1 on failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolRefresh")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolRefresh")]
         public static extern int Refresh(IntPtr pool, uint flags);
 
         /// <summary>
@@ -466,7 +466,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, -1 on failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolSetAutostart")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolSetAutostart")]
         public static extern int SetAutostart(IntPtr pool, int autostart);
 
         /// <summary>
@@ -478,7 +478,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 on success, -1 on failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolUndefine")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStoragePoolUndefine")]
         public static extern int Undefine(IntPtr pool);
     }
 }

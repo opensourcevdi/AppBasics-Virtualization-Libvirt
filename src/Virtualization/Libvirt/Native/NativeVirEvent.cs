@@ -45,7 +45,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         ///<param name="addTimeout">the virEventAddTimeoutFunc which will be called (a delegate)</param>
         ///<param name="updateTimeout">the virEventUpdateTimeoutFunc which will be called (a delegate)</param>
         ///<param name="removeTimeout">the virEventRemoveTimeoutFunc which will be called (a delegate)</param>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virEventRegisterImpl")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virEventRegisterImpl")]
         public static extern void RegisterImpl([MarshalAs(UnmanagedType.FunctionPtr)] EventAddHandleFunc addHandle,
                                                [MarshalAs(UnmanagedType.FunctionPtr)] EventUpdateHandleFunc updateHandle,
                                                [MarshalAs(UnmanagedType.FunctionPtr)] EventRemoveHandleFunc removeHandle,
@@ -58,14 +58,14 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// For proper event handling, it is important that the event implementation is registered before a connection to the Hypervisor is opened.
         /// </summary>
         /// <returns>0 on success, -1 on failure.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virEventRegisterDefaultImpl")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virEventRegisterDefaultImpl")]
         public static extern int RegisterDefaultImpl();
 
         /// <summary>
         /// Run one iteration of the event loop. Applications will generally want to have a thread which invokes this method in an infinite loop. Furthermore, it is wise to set up a pipe-to-self handler (via virEventAddHandle()) or a timeout (via virEventAddTimeout()) before calling this function, as it will block forever if there are no registered events.
         /// </summary>
         /// <returns></returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virEventRunDefaultImpl")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virEventRunDefaultImpl")]
         public static extern int RunDefaultImpl();
     }
 }

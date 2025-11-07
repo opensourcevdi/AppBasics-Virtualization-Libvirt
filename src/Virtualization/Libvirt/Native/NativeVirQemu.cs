@@ -33,14 +33,14 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
     ///</summary>
     public static class NativeVirQemu
     {
-        [DllImport("libvirt-qemu.so.0", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainQemuMonitorCommand")]
+        [DllImport(NativeLib.LibvirtQemu, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainQemuMonitorCommand")]
         private static extern int virDomainQemuMonitorCommand(
             IntPtr domain,
             [MarshalAs(UnmanagedType.LPUTF8Str)] string cmd,
             out IntPtr result,
             VirDomainQemuMonitorCommandFlags flags);
 
-        [DllImport("libvirt.so.0", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virFree")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virFree")]
         private static extern int virFree(IntPtr ptr);
 
         public static int MonitorCommand(IntPtr domain, string cmd, out string result, VirDomainQemuMonitorCommandFlags flags)

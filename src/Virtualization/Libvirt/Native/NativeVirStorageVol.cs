@@ -40,7 +40,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="xmldesc">A <see cref="System.String"/>description of volume to create.</param>
         /// <param name="flags">A <see cref="System.UInt32"/>flags for creation (unused, pass 0).</param>
         /// <returns>The storage volume, or NULL on error.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolCreateXML")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolCreateXML")]
         public static extern IntPtr CreateXML(IntPtr pool, string xmldesc, uint flags);
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>the storage volume, or NULL on error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolCreateXMLFrom")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolCreateXMLFrom")]
         public static extern IntPtr CreateXMLFrom(IntPtr pool, string xmldesc, IntPtr clonevol, uint flags);
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="vol">A <see cref="IntPtr"/>pointer to storage volume.</param>
         /// <param name="flags">A <see cref="System.UInt32"/>future flags, use 0 for now.</param>
         /// <returns>0 on success, or -1 on error.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolDelete")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolDelete")]
         public static extern int Delete(IntPtr vol, uint flags);
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </summary>
         /// <param name="vol">A <see cref="IntPtr"/>pointer to storage volume.</param>
         /// <returns>0 on success, or -1 on error.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolFree")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolFree")]
         public static extern int Free(IntPtr vol);
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </summary>
         /// <param name="vol">A <see cref="IntPtr"/> pointer to the storage volume</param>
         /// <returns>A <see cref="IntPtr"/>A Pointer to the connect that hold the storage volume</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetConnect")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetConnect")]
         public static extern IntPtr GetConnect(IntPtr vol);
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="vol">A <see cref="IntPtr"/>pointer to storage volume.</param>
         /// <param name="info">A <see cref="VirStorageVolInfo"/>pointer at which to store info.</param>
         /// <returns>0 on success, or -1 on failure.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetInfo")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetInfo")]
         public static extern int GetInfo(IntPtr vol, ref VirStorageVolInfo info);
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </summary>
         /// <param name="vol">A <see cref="IntPtr"/>pointer to storage volume.</param>
         /// <returns>The volume key, or NULL on error.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetKey")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetKey")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetKey(IntPtr vol);
 
@@ -109,7 +109,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </summary>
         /// <param name="vol">A <see cref="IntPtr"/>pointer to storage volume.</param>
         /// <returns>The volume name, or NULL on error.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetName")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetName")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetName(IntPtr vol);
 
@@ -123,7 +123,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// The storage volume path, or NULL on error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetPath")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetPath")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetPath(IntPtr vol);
 
@@ -133,7 +133,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="vol">A <see cref="IntPtr"/>pointer to storage volume.</param>
         /// <param name="flags">A <see cref="System.UInt32"/>flags for XML generation (unused, pass 0).</param>
         /// <returns>The XML document, or NULL on error.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetXMLDesc")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolGetXMLDesc")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetXMLDesc(IntPtr vol, uint flags);
 
@@ -145,7 +145,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>storage volume, or NULL if not found / error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolLookupByKey")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolLookupByKey")]
         public static extern IntPtr LookupByKey(IntPtr conn, string key);
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>storage volume, or NULL if not found / error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolLookupByName")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolLookupByName")]
         public static extern IntPtr LookupByName(IntPtr pool, string name);
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="IntPtr"/>storage volume, or NULL if not found / error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolLookupByPath")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolLookupByPath")]
         public static extern IntPtr LookupByPath(IntPtr conn, string path);
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="System.Int32"/>0 in case of success, -1 in case of failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolRef")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virStorageVolRef")]
         public static extern int Ref(IntPtr vol);
     }
 }

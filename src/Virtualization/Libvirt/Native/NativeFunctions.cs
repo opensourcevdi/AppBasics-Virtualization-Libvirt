@@ -38,18 +38,18 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </summary>
         /// <param name="strSource">Pointer to the string that should be duplicated</param>
         /// <returns>a pointer to a new string on success. Otherwise, it shall return a null pointer</returns>
-        [DllImport("msvcrt.dll", EntryPoint = "_strdup", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NativeLib.LibC, EntryPoint = "_strdup", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr StrDup(IntPtr strSource);
 
         // TODO : this is a temporary workaround for virConnectOpenAuth callback, this should be removed
-        [DllImport("msvcrt.dll", EntryPoint = "free", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NativeLib.LibC, EntryPoint = "free", CallingConvention = CallingConvention.Cdecl)]
         public static extern void Free(IntPtr ptr);
 
 
-        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport(NativeLib.LibC, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern IntPtr fopen(String filename, String mode);
 
-        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport(NativeLib.LibC, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern Int32 fclose(IntPtr file);
     }
 }

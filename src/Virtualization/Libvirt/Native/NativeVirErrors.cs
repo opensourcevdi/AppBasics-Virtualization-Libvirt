@@ -39,7 +39,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="conn">
         /// A <see cref="IntPtr"/> pointer to the hypervisor connection.
         /// </param>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virConnResetLastError")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virConnResetLastError")]
         public static extern void ConnResetLastError(IntPtr conn);
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="handler">
         /// A <see cref="ErrorFunc"/>function to get called in case of error or NULL
         /// </param>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virConnSetErrorFunc")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virConnSetErrorFunc")]
         public static extern void ConnSetErrorFunc(IntPtr conn, IntPtr userData, [MarshalAs(UnmanagedType.FunctionPtr)] ErrorFunc handler);
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 if no error was found and the error code otherwise and -1 in case of parameter error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virCopyLastError")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virCopyLastError")]
         public static extern int CopyLastError([Out] VirError to);
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="err">
         /// A <see cref="VirError"/> pointer to the error.
         /// </param>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDefaultErrorFunc")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDefaultErrorFunc")]
         public static extern void DefaultErrorFunc([In] VirError err);
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="err">
         /// A <see cref="VirError"/> error to free.
         /// </param>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virFreeError")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virFreeError")]
         public static extern void FreeError(VirError err); // Does not work, anybody know why?
 
         /// <summary>
@@ -97,9 +97,9 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A pointer to the last error or NULL if none occurred.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virGetLastError")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virGetLastError")]
         private static extern IntPtr GetLastErrorImpl();
-        
+
         /// <summary>
         /// Provide the last error caught at the library level. 
         /// The error object is kept in thread local storage, so separate threads can safely access this concurrently.
@@ -112,7 +112,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
             IntPtr errPtr = GetLastErrorImpl();
             if (errPtr == IntPtr.Zero)
                 return null;
-            return (VirError)Marshal.PtrToStructure(errPtr, typeof (VirError));
+            return (VirError)Marshal.PtrToStructure(errPtr, typeof(VirError));
         }
 
         /// <summary>
@@ -133,14 +133,14 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="err">
         /// A <see cref="VirError"/> pointer to the to clean up.
         /// </param>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virResetError")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virResetError")]
         public static extern void ResetError(VirError err);
 
         /// <summary>
         /// Reset the last error caught at the library level. The error object is kept in thread local storage,
         /// so separate threads can safely access this concurrently, only resetting their own error object.
         /// </summary>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virResetLastError")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virResetLastError")]
         public static extern void ResetLastError();
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// A <see cref="VirError"/> pointer to the copied error or NULL if allocation failed.
         /// It is the caller's responsibility to free the error with virFreeError().
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virSaveLastError")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virSaveLastError")]
         public static extern VirError SaveLastError();
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="handler">
         /// A <see cref="ErrorFunc"/>function to get called in case of error or NULL.
         /// </param>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virSetErrorFunc")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virSetErrorFunc")]
         public static extern void SetErrorFunc(IntPtr userData, [MarshalAs(UnmanagedType.FunctionPtr)] ErrorFunc handler);
     }
 }

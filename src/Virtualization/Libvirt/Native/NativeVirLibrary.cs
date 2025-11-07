@@ -34,7 +34,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
     /// </summary>
     public class NativeVirLibrary
     {
-        
+
         /// <summary>
         /// Provides two information back, @libVer is the version of the library while @typeVer will be the version of the hypervisor
         /// type @type against which the library was compiled. If @type is NULL, "Xen" is assumed,
@@ -52,7 +52,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// -1 in case of failure, 0 otherwise, and values for @libVer and @typeVer have the format major * 1,000,000 + minor * 1,000 + release.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virGetVersion")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virGetVersion")]
         public static extern int GetVersion([Out] out ulong libVer, [In] string type, [Out] out ulong typeVer);
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 in case of success, -1 in case of error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virInitialize")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virInitialize")]
         internal static extern int InitializeLib();
     }
 }

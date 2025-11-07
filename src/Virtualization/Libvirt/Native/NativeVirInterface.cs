@@ -44,7 +44,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </summary>
         /// <param name="iface">an interface object</param>
         /// <returns>0 in case of success and -1 in case of failure</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virInterfaceFree")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virInterfaceFree")]
         public static extern int Free(IntPtr iface);
 
         // TODO virInterfaceGetConnect
@@ -59,7 +59,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="iface">an interface object</param>
         /// <param name="flags">bitwise-OR of extraction flags.</param>
         /// <returns>a 0 terminated UTF-8 encoded XML instance, or NULL in case of error. The caller must free() the returned value.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virInterfaceGetXMLDesc")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virInterfaceGetXMLDesc")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetXMLDesc(IntPtr iface, int flags);
 
@@ -73,7 +73,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="conn">pointer to the hypervisor connection</param>
         /// <param name="name">name for the interface</param>
         /// <returns>a new interface object or NULL in case of failure. If the interface cannot be found, then VIR_ERR_NO_INTERFACE error is raised.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virInterfaceLookupByName")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virInterfaceLookupByName")]
         public static extern IntPtr LookupByName(IntPtr conn, string name);
 
         // TODO virInterfaceRef

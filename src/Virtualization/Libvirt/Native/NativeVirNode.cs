@@ -32,7 +32,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
     /// </summary>
     public class NativeVirNode
     {
-		private const int MaxStringLength = 1024;
+        private const int MaxStringLength = 1024;
 
         // TODO virNodeDeviceCreateXML
 
@@ -52,7 +52,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="dev">pointer to the node device</param>
         /// <param name="flags">flags for XML generation (unused, pass 0)</param>
         /// <returns>the XML document, or NULL on error</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeDeviceGetXMLDesc")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeDeviceGetXMLDesc")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string DeviceGetXMLDesc(IntPtr dev, uint flags);
 
@@ -64,7 +64,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="conn">pointer to the hypervisor connection</param>
         /// <param name="name">unique device name</param>
         /// <returns>a virNodeDevicePtr if found, NULL otherwise.</returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeDeviceLookupByName")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeDeviceLookupByName")]
         public static extern IntPtr DeviceLookupByName(IntPtr conn, string name);
         // TODO virNodeDeviceNumOfCaps
 
@@ -86,9 +86,9 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// The available free memory in bytes or 0 in case of error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeGetFreeMemory")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeGetFreeMemory")]
         public static extern ulong GetFreeMemory(IntPtr conn);
-        
+
         /// <summary>
         /// Extract hardware information about the node.
         /// </summary>
@@ -101,8 +101,8 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 in case of success and -1 in case of failure.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeGetInfo")]
-        public static extern int GetInfo(IntPtr h, [Out]VirNodeInfo info);
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeGetInfo")]
+        public static extern int GetInfo(IntPtr h, [Out] VirNodeInfo info);
 
         // TODO virNodeGetSecurityModel
 
@@ -128,7 +128,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// The number of node devices found or -1 in case of error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeListDevices")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeListDevices")]
         private static extern int ListDevices(IntPtr conn, string cap, IntPtr names, int maxnames, uint flags);
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// The number of node devices or -1 in case of error.
         /// </returns>
-        [DllImport("libvirt-0.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeNumOfDevices")]
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeNumOfDevices")]
         public static extern int NumOfDevices(IntPtr conn, string cap, uint flags);
     }
 }
