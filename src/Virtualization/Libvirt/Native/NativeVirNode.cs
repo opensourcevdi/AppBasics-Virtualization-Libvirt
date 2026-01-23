@@ -1,24 +1,24 @@
 ﻿/*
  * Libvirt-dotnet
- * 
+ *
  * Copyright 2020 IDNT (https://www.idnt.net) and Libvirt-dotnet contributors.
- * 
+ *
  * This project incorporates work by the following original authors and contributors
  * to libvirt-csharp:
- *    
- *    Copyright (C) 
+ *
+ *    Copyright (C)
  *      Arnaud Champion <arnaud.champion@devatom.fr>
  *      Jaromír Červenka <cervajz@cervajz.com>
  *
  * Licensed under the GNU Lesser General Public Library, Version 2.1 (the "License");
- * you may not use this file except in compliance with the License. You may obtain a 
+ * you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
  *
  * https://www.gnu.org/licenses/lgpl-2.1.en.html
- * 
- * or see LICENSE for a copy of the license terms. Unless required by applicable 
- * law or agreed to in writing, software distributed under the License is distributed 
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express 
+ *
+ * or see LICENSE for a copy of the license terms. Unless required by applicable
+ * law or agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
@@ -52,7 +52,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="dev">pointer to the node device</param>
         /// <param name="flags">flags for XML generation (unused, pass 0)</param>
         /// <returns>the XML document, or NULL on error</returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeDeviceGetXMLDesc")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virNodeDeviceGetXMLDesc"
+        )]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string DeviceGetXMLDesc(IntPtr dev, uint flags);
 
@@ -64,8 +68,13 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="conn">pointer to the hypervisor connection</param>
         /// <param name="name">unique device name</param>
         /// <returns>a virNodeDevicePtr if found, NULL otherwise.</returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeDeviceLookupByName")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virNodeDeviceLookupByName"
+        )]
         public static extern IntPtr DeviceLookupByName(IntPtr conn, string name);
+
         // TODO virNodeDeviceNumOfCaps
 
         // TODO virNodeDeviceReAttach
@@ -181,5 +190,53 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeNumOfDevices")]
         public static extern int NumOfDevices(IntPtr conn, string cap, uint flags);
+
+        /// <summary>
+        /// Get CPU statistics for a given CPU on the node.
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="cpuNum"></param>
+        /// <param name="stats"></param>
+        /// <param name="nparams"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeGetCPUStats")]
+        private static extern int GetCPUStats(IntPtr conn, int cpuNum, IntPtr stats, ref int nparams, uint flags);
+
+        public static VirNodeCPUStats[] GetNodeCpuStats(IntPtr conn, int cpuNum = -1, uint flags = 0)
+        {
+            int nparams = 0;
+
+            // First call: get parameter count
+            int rc = GetCPUStats(conn, cpuNum, IntPtr.Zero, ref nparams, flags);
+
+            if (rc < 0)
+                throw new InvalidOperationException("virNodeGetCPUStats failed (count)");
+
+            int structSize = Marshal.SizeOf<VirNodeCPUStats>();
+            IntPtr buffer = Marshal.AllocHGlobal(structSize * nparams);
+
+            try
+            {
+                rc = GetCPUStats(conn, cpuNum, buffer, ref nparams, flags);
+
+                if (rc < 0)
+                    throw new InvalidOperationException("virNodeGetCPUStats failed");
+
+                var stats = new VirNodeCPUStats[nparams];
+
+                for (int i = 0; i < nparams; i++)
+                {
+                    IntPtr ptr = IntPtr.Add(buffer, i * structSize);
+                    stats[i] = Marshal.PtrToStructure<VirNodeCPUStats>(ptr);
+                }
+
+                return stats;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
     }
 }
