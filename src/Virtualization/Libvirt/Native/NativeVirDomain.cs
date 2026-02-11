@@ -1,31 +1,31 @@
 ﻿/*
  * Libvirt-dotnet
- * 
+ *
  * Copyright 2020 IDNT (https://www.idnt.net) and Libvirt-dotnet contributors.
- * 
+ *
  * This project incorporates work by the following original authors and contributors
  * to libvirt-csharp:
- *    
- *    Copyright (C) 
+ *
+ *    Copyright (C)
  *      Arnaud Champion <arnaud.champion@devatom.fr>
  *      Jaromír Červenka <cervajz@cervajz.com>
  *
  * Licensed under the GNU Lesser General Public Library, Version 2.1 (the "License");
- * you may not use this file except in compliance with the License. You may obtain a 
+ * you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
  *
  * https://www.gnu.org/licenses/lgpl-2.1.en.html
- * 
- * or see LICENSE for a copy of the license terms. Unless required by applicable 
- * law or agreed to in writing, software distributed under the License is distributed 
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express 
+ *
+ * or see LICENSE for a copy of the license terms. Unless required by applicable
+ * law or agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using IDNT.AppBasics.Virtualization.Libvirt.Metrics;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using IDNT.AppBasics.Virtualization.Libvirt.Metrics;
 
 namespace IDNT.AppBasics.Virtualization.Libvirt.Native
 {
@@ -40,8 +40,13 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="domain">pointer to domain object</param>
         /// <param name="xml">pointer to XML description of one device</param>
         /// <returns>0 in case of success, -1 in case of failure.</returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainAttachDevice")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainAttachDevice"
+        )]
         public static extern int AttachDevice(IntPtr domain, string xml);
+
         /// <summary>
         /// Attach a virtual device to a domain, using the flags parameter to control how the device is attached. VIR_DOMAIN_DEVICE_MODIFY_CURRENT specifies that the device allocation is made based on current domain state. VIR_DOMAIN_DEVICE_MODIFY_LIVE specifies that the device shall be allocated to the active domain instance only and is not added to the persisted domain configuration. VIR_DOMAIN_DEVICE_MODIFY_CONFIG specifies that the device shall be allocated to the persisted domain configuration only. Note that the target hypervisor must return an error if unable to satisfy flags. E.g. the hypervisor driver will return failure if LIVE is specified but it only supports modifying the persisted device allocation.
         /// </summary>
@@ -49,7 +54,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="xml">pointer to XML description of one device</param>
         /// <param name="flags">an OR'ed set of virDomainDeviceModifyFlags</param>
         /// <returns>0 in case of success, -1 in case of failure.</returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainAttachDeviceFlags")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainAttachDeviceFlags"
+        )]
         public static extern int AttachDeviceFlags(IntPtr domain, string xml, uint flags);
 
         /// <summary>
@@ -64,7 +73,14 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="flags">bitwise-OR of virTypedParameterFlags</param>
         /// <returns>-1 on failure, or the number of statistics that were populated per cpu on success (this will be less than the total number of populated @params, unless @ncpus was 1; and may be less than @nparams). The populated parameters start at each stride of @nparams, which means the results may be discontiguous; any unpopulated parameters will be zeroed on success (this includes skipped elements if @nparams is too large, and tail elements if @ncpus is too large). The caller is responsible for freeing any returned string parameters..</returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetCPUStats")]
-        public static extern int GetCpuStats(IntPtr dom, [Out] VirTypedParameter[] typedParams, uint nparams, int start_cpu, uint ncpus, uint flags);
+        public static extern int GetCpuStats(
+            IntPtr dom,
+            [Out] VirTypedParameter[] typedParams,
+            uint nparams,
+            int start_cpu,
+            uint ncpus,
+            uint flags
+        );
 
         // TODO virDomainBlockPeek
 
@@ -98,6 +114,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
             Marshal.FreeHGlobal(statStructPtr);
             return result;
         }
+
         /// <summary>
         /// This method will dump the core of a domain on a given file for analysis. Note that for remote Xen Daemon the file path will be interpreted in the remote host.
         /// </summary>
@@ -107,6 +124,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>0 in case of success and -1 in case of failure.</returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainCoreDump")]
         public static extern int CoreDump(IntPtr domain, string to, int flags);
+
         /// <summary>
         /// Launch a defined domain. If the call succeed the domain moves from the defined to the running domains pools.
         /// </summary>
@@ -118,6 +136,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainCreate")]
         public static extern int Create(IntPtr domain);
+
         /// <summary>
         /// Launch a new guest domain, based on an XML description similar to the one returned by virDomainGetXMLDesc().
         /// This function may requires privileged access to the hypervisor. The domain is not persistent,
@@ -137,6 +156,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainCreateXML")]
         public static extern IntPtr CreateXML(IntPtr conn, string xmlDesc, uint flags);
+
         /// <summary>
         /// Define a domain, but does not start it. This definition is persistent, until explicitly undefined with virDomainUndefine().
         /// A previous definition for this domain would be overriden if it already exists.
@@ -152,6 +172,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainDefineXML")]
         public static extern IntPtr DefineXML(IntPtr conn, string xml);
+
         /// <summary>
         /// Destroy the domain object. The running instance is shutdown if not down already
         /// and all resources used by it are given back to the hypervisor.
@@ -165,6 +186,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainDestroy")]
         public static extern int Destroy(IntPtr domain);
+
         /// <summary>
         /// Destroy a virtual device attachment to backend.
         /// </summary>
@@ -177,8 +199,13 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 in case of success, -1 in case of failure.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainDetachDevice")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainDetachDevice"
+        )]
         public static extern int DetachDevice(IntPtr domain, string xml);
+
         /// <summary>
         /// Detach a virtual device from a domain, using the flags parameter to control how the device is detached. VIR_DOMAIN_DEVICE_MODIFY_CURRENT specifies that the device allocation is removed based on current domain state. VIR_DOMAIN_DEVICE_MODIFY_LIVE specifies that the device shall be deallocated from the active domain instance only and is not from the persisted domain configuration. VIR_DOMAIN_DEVICE_MODIFY_CONFIG specifies that the device shall be deallocated from the persisted domain configuration only. Note that the target hypervisor must return an error if unable to satisfy flags. E.g. the hypervisor driver will return failure if LIVE is specified but it only supports removing the persisted device allocation.
         /// </summary>
@@ -186,8 +213,13 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="xml">pointer to XML description of one device</param>
         /// <param name="flags">an OR'ed set of virDomainDeviceModifyFlags</param>
         /// <returns>0 in case of success, -1 in case of failure.</returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainDetachDeviceFlags")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainDetachDeviceFlags"
+        )]
         public static extern int DetachDeviceFlags(IntPtr domain, string xml, uint flags);
+
         /// <summary>
         /// Free the domain object. The running instance is kept alive. The data structure is freed and should not be used thereafter.
         /// </summary>
@@ -199,6 +231,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainFree")]
         public static extern int Free(IntPtr domain);
+
         /// <summary>
         /// Provides a boolean value indicating whether the domain configured to be automatically started when the host machine boots.
         /// </summary>
@@ -211,8 +244,13 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// -1 in case of error, 0 in case of success.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetAutostart")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainGetAutostart"
+        )]
         public static extern int GetAutostart(IntPtr domain, out int autostart);
+
         /// <summary>
         /// Provides the connection pointer associated with a domain.
         /// The reference counter on the connection is not increased by this call.
@@ -227,6 +265,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetConnect")]
         public static extern IntPtr GetConnect(IntPtr dom);
+
         /// <summary>
         /// Get the hypervisor ID number for the domain.
         /// </summary>
@@ -238,6 +277,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetID")]
         public static extern int GetID(IntPtr domain);
+
         /// <summary>
         /// Extract information about a domain. Note that if the connection used to get the domain is limited only a
         /// partial set of the information can be extracted.
@@ -253,6 +293,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetInfo")]
         public static extern int GetInfo(IntPtr domain, [Out] VirDomainInfo info);
+
         /// <summary>
         /// Retrieve the maximum amount of physical memory allocated to a domain.
         /// If domain is NULL, then this get the amount of memory reserved to Domain0 i.e. the domain where the application runs.
@@ -263,7 +304,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// the memory size in kilobytes or 0 in case of error.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetMaxMemory")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainGetMaxMemory"
+        )]
         public static extern ulong GetMaxMemory(IntPtr domain);
 
         /// <summary>
@@ -276,7 +321,12 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="flags">extra flags; not used yet, so callers should always pass 0</param>
         /// <returns>The number of stats provided or -1 in case of failure.</returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainMemoryStats")]
-        public static extern int GetMemoryStats(IntPtr dom, [Out] VirDomainMemoryStat[] stats, uint nr_stats, uint flags);
+        public static extern int GetMemoryStats(
+            IntPtr dom,
+            [Out] VirDomainMemoryStat[] stats,
+            uint nr_stats,
+            uint flags
+        );
 
         /// <summary>
         /// Provides the maximum number of virtual CPUs supported for the guest VM.
@@ -291,6 +341,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// </returns>
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetMaxVcpus")]
         public static extern int GetMaxVcpus(IntPtr domain);
+
         /// <summary>
         /// Get the public name for that domain.
         /// </summary>
@@ -335,7 +386,12 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A <see cref="System.Int32"/>-1 in case of error, 0 in case of success.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetUUID", CharSet = CharSet.Ansi)]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainGetUUID",
+            CharSet = CharSet.Ansi
+        )]
         public static extern int GetUUID(IntPtr domain, [Out] byte[] uuid);
 
         /// <summary>
@@ -350,7 +406,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// -1 in case of error, 0 in case of success.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainGetUUIDString")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainGetUUIDString"
+        )]
         public static extern int GetUUIDString(IntPtr domain, [Out] IntPtr buf);
 
         // TODO virDomainGetVcpus
@@ -393,8 +453,13 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 in case of success or -1 in case of failure.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainInterfaceStats")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainInterfaceStats"
+        )]
         private static extern int InterfaceStats(IntPtr dom, string path, IntPtr stats, int size);
+
         /// <summary>
         /// This function returns network interface stats for interfaces attached to the domain.
         /// The path parameter is the name of the network interface. Domains may have more than one network interface.
@@ -423,6 +488,7 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
             Marshal.FreeHGlobal(statStructPtr);
             return result;
         }
+
         /// <summary>
         /// Determine if the domain is currently running.
         /// </summary>
@@ -444,7 +510,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 1 if persistent, 0 if transient, -1 on error.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainIsPersistent")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainIsPersistent"
+        )]
         public static extern int IsPersistent(IntPtr dom);
 
         /// <summary>
@@ -487,7 +557,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A new domain object or NULL in case of failure. If the domain cannot be found, then VIR_ERR_NO_DOMAIN error is raised.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainLookupByName")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainLookupByName"
+        )]
         public static extern IntPtr LookupByName(IntPtr conn, string name);
 
         /// <summary>
@@ -502,7 +576,12 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A new domain object or NULL in case of failure. If the domain cannot be found, then VIR_ERR_NO_DOMAIN error is raised.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainLookupByUUID", CharSet = CharSet.Ansi)]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainLookupByUUID",
+            CharSet = CharSet.Ansi
+        )]
         public static extern IntPtr LookupByUUID(IntPtr conn, byte[] uuid);
 
         /// <summary>
@@ -517,7 +596,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// A new domain object or NULL in case of failure. If the domain cannot be found, then VIR_ERR_NO_DOMAIN error is raised.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainLookupByUUIDString")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainLookupByUUIDString"
+        )]
         public static extern IntPtr LookupByUUIDString(IntPtr conn, string uuidstr);
 
         // TODO virDomainMemoryPeek
@@ -649,7 +732,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// -1 in case of error, 0 in case of success.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainSetAutostart")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainSetAutostart"
+        )]
         public static extern int SetAutostart(IntPtr domain, int autostart);
 
         /// <summary>
@@ -666,7 +753,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <returns>
         /// 0 in case of success and -1 in case of failure.
         /// </returns>
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainSetMaxMemory")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainSetMaxMemory"
+        )]
         public static extern int SetMaxMemory(IntPtr domain, ulong memory);
 
         /// <summary>
@@ -750,8 +841,11 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         /// <param name="domain">pointer to a defined domain</param>
         /// <param name="flags">an OR'ed set of virDomainUndefineFlags</param>
         /// <returns>0 in case of success, -1 in case of error
-
-        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainUndefineFlags")]
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainUndefineFlags"
+        )]
         public static extern int UndefineFlags(IntPtr domain, VirDomainUndefineFlagsValues flags);
 
         /// <summary>
@@ -765,5 +859,65 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainScreenshot")]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringWithoutNativeCleanUpMarshaler))]
         public static extern string GetScreenshot(IntPtr dom, IntPtr stream, uint screen, uint flags);
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="dom"> pointer to domain object </param>
+        /// <param name="disk">path to the block device, or device shorthand</param>
+        /// <param name="baseImage">path to backing file to keep, or device shorthand, or NULL for no backing file</param>
+        /// <param name="bandwidth">(optional) specify bandwidth limit; flags determine the unit</param>
+        /// <param name="flags">bitwise-OR of virDomainBlockRebaseFlags</param>
+        /// <returns>0 if the operation has started, -1 on failure.</returns>
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainBlockRebase")]
+        public static extern int RebaseImage(IntPtr dom, string disk, string baseImage, ulong bandwidth, uint flags);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="dom"> pointer to domain object </param>
+        /// <param name="disk">path to the block device, or device shorthand</param>
+        /// <param name="baseImage">path to backing file to merge into, or device shorthand, or NULL for default</param>
+        /// <param name="top">path to file within backing chain that contains data to be merged, or device shorthand, or NULL to merge all possible data</param>
+        /// <param name="bandwidth">(optional) specify bandwidth limit; flags determine the unit</param>
+        /// <param name="flags">bitwise-OR of virDomainBlockCommitFlags</param>
+        /// <returns>0 if the operation has started, -1 on failure.</returns>
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainBlockCommit")]
+        public static extern int BlockCommit(IntPtr dom, string disk, string baseImage, ulong bandwidth, uint flags);
+
+        /// <summary>
+        /// This function retrieves information about an ongoing block job (if any) for a given disk of a domain.
+        /// </summary>
+        /// <param name="dom">pointer to domain object</param>
+        /// <param name="disk">path to the block device, or device shorthand</param>
+        /// <param name="info">structure to fill with block job information (returned)</param
+        /// <param name="flags">bitwise-OR of virDomainBlockJobInfoFlags</param>
+        /// <returns>0 in case of success, -1 on failure.</returns>
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virDomainGetBlockJobInfo"
+        )]
+        public static extern int GetBlockJobInfo(IntPtr dom, string disk, out VirDomainBlockJobInfo info, uint flags);
+
+        /// <summary>
+        /// Populate a disk image with data from its backing image.
+        /// </summary>
+        /// <param name="dom">pointer to domain object</param>
+        /// <param name="disk">path to the block device, or device shorthand</param>
+        /// <param name="bandwidth">(optional) specify bandwidth limit; flags determine the unit</param>
+        /// <param name="flags">bitwise-OR of virDomainBlockPullFlags</param>
+        /// <returns></returns>
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainBlockPull")]
+        public static extern int BlockPull(IntPtr dom, string disk, ulong bandwidth, uint flags);
+
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virDomainBlockCopy")]
+        public static extern int BlockCopy(
+            IntPtr dom,
+            string disk,
+            string destXml,
+            IntPtr typedParameters,
+            int nparams,
+            uint flags
+        );
     }
 }
