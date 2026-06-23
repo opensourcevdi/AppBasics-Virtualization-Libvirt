@@ -238,5 +238,57 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
                 Marshal.FreeHGlobal(buffer);
             }
         }
+
+        /// <summary>
+        /// Get memory statistics for the host node.
+        /// </summary>
+        /// <param name="conn">Libvirt connection.</param>
+        /// <param name="cellNum">
+        /// NUMA cell number, or VIR_NODE_MEMORY_STATS_ALL_CELLS (-1)
+        /// </param>
+        /// <param name="flags">Reserved, must be 0.</param>
+        /// <returns>Array of memory statistics.</returns>
+        [DllImport(
+            NativeLib.Libvirt,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "virNodeGetMemoryStats"
+        )]
+        private static extern int GetMemoryStats(IntPtr conn, int cellNum, IntPtr stats, ref int nparams, uint flags);
+
+        public static VirNodeMemoryStats[] GetNodeMemoryStats(IntPtr conn, int cellNum = -1, uint flags = 0)
+        {
+            int nparams = 0;
+
+            // First call: get parameter count
+            int rc = GetMemoryStats(conn, cellNum, IntPtr.Zero, ref nparams, flags);
+
+            if (rc < 0)
+                throw new InvalidOperationException("virNodeGetMemoryStats failed (count)");
+
+            int structSize = Marshal.SizeOf<VirNodeMemoryStats>();
+            IntPtr buffer = Marshal.AllocHGlobal(structSize * nparams);
+
+            try
+            {
+                rc = GetMemoryStats(conn, cellNum, buffer, ref nparams, flags);
+
+                if (rc < 0)
+                    throw new InvalidOperationException("virNodeGetMemoryStats failed");
+
+                var stats = new VirNodeMemoryStats[nparams];
+
+                for (int i = 0; i < nparams; i++)
+                {
+                    IntPtr ptr = IntPtr.Add(buffer, i * structSize);
+                    stats[i] = Marshal.PtrToStructure<VirNodeMemoryStats>(ptr);
+                }
+
+                return stats;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
     }
 }
