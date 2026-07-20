@@ -75,6 +75,14 @@ namespace IDNT.AppBasics.Virtualization.Libvirt.Native
         )]
         public static extern IntPtr DeviceLookupByName(IntPtr conn, string name);
 
+        /// <summary>
+        /// Drops a reference to the node device, freeing it if this was the last reference.
+        /// </summary>
+        /// <param name="dev"></param>
+        /// <returns></returns>
+        [DllImport(NativeLib.Libvirt, CallingConvention = CallingConvention.Cdecl, EntryPoint = "virNodeDeviceFree")]
+        public static extern int Free(IntPtr dev);
+
         // TODO virNodeDeviceNumOfCaps
 
         // TODO virNodeDeviceReAttach
